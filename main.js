@@ -22,7 +22,7 @@ setInterval(function() {
     return;
   }
 
-  console.log('THANKS FOR PAYING')
+  console.log('THANKS FOR TIPPING')
   // Set counter and display to 0
   counter = 0;
   Display.show(counter);
