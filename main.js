@@ -1,3 +1,4 @@
+const exec = require('child_process').exec;
 const TM1637 = require("lepioo.tm1637"); //tentative filename, package tbd
 const CLK = 21;
 const DIO = 20;
@@ -36,10 +37,13 @@ buttonMinus.watch((err, value) => {
   if (counter < 1) {
     counter = 0;
   }
+
+  exec("omxplayer -o local files/minus-1.mp3");
   Display.show(counter);
 });
 
 buttonPlus.watch((err, value) => {
   counter++;
   Display.show(counter);
+  exec("omxplayer -o local files/plus-1.mp3");
 });
