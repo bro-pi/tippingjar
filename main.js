@@ -4,10 +4,15 @@ const CLK = 21;
 const DIO = 20;
 const Display = new TM1637(CLK, DIO);
 
+const plusAudioCount  = 6;
+const minusAudioCount = 3;
+
 const Gpio = require('onoff').Gpio;
 const debounce = 100;
 const buttonMinus = new Gpio(4, 'in', 'falling', {debounceTimeout: debounce});
 const buttonPlus = new Gpio(14, 'in', 'both', {debounceTimeout: debounce});
+
+reboot();
 
 const mfrc522 = require('mfrc522-rpi')
 mfrc522.initWiringPi(0);
@@ -39,12 +44,26 @@ buttonMinus.watch((err, value) => {
     counter = 0;
   }
 
-  spawn("omxplayer", ["-o local files/minus-1.mp3"]);
+  var sound = Math.floor(counter % minusAudioCount);
+
+  if (sound == 0) {
+    sound = 1;
+  }
+
+  spawn("omxplayer", ["-o local files/minus-" + sound + ".mp3"]);
   Display.show(counter);
 });
 
 buttonPlus.watch((err, value) => {
   counter++;
   Display.show(counter);
-  spawn("omxplayer", ["-o local files/plus-1.mp3"]);
+
+  var sound = Math.floor(counter % plusAudioCount);
+
+  spawn("omxplayer", ["-o local files/plus-" + plusAudioCount + ".mp3"]);
 });
+
+function reboot() {
+  Display.stop();
+  Display.start();
+}
