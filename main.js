@@ -4,9 +4,6 @@ const CLK = 21;
 const DIO = 20;
 const Display = new TM1637(CLK, DIO);
 
-const plusAudioCount  = 6;
-const minusAudioCount = 3;
-
 const Gpio = require('onoff').Gpio;
 const debounce = 100;
 const buttonMinus = new Gpio(4, 'in', 'falling', {debounceTimeout: debounce});
@@ -32,7 +29,7 @@ setInterval(function() {
   // Set counter and display to 0
   counter = 0;
   Display.show(counter);
-  spawn("omxplayer", ["-o local files/thanks.ogg"]);
+  spawn("omxplayer", ["-o", "local", "files/thanks.ogg"]);
 }, 1500);
 
 let counter = 0;
@@ -46,7 +43,7 @@ buttonMinus.watch((err, value) => {
 
   console.log('MINUS', counter);
 
-  spawn("omxplayer", ["-o local files/minus-" + (counter - 1) + ".mp3"]);
+  spawn("omxplayer", ["-o", "local", "files/minus-" + (counter - 1) + ".mp3"]);
   Display.show(counter);
 });
 
@@ -54,7 +51,7 @@ buttonPlus.watch((err, value) => {
   counter++;
   Display.show(counter);
   console.log('PLUS', counter);
-  spawn("omxplayer", ["-o local files/plus-" + (counter - 1) + ".mp3"]);
+  spawn("omxplayer", ["-o", "local", "files/plus-" + (counter - 1) + ".mp3"]);
 });
 
 function reboot() {
