@@ -1,13 +1,13 @@
-const exec = require('child_process').exec;
+const spawn = require('child_process').spawn;
 const TM1637 = require("lepioo.tm1637"); //tentative filename, package tbd
 const CLK = 21;
 const DIO = 20;
 const Display = new TM1637(CLK, DIO);
 
 const Gpio = require('onoff').Gpio;
-const debounce = 500;
+const debounce = 100;
 const buttonMinus = new Gpio(4, 'in', 'falling', {debounceTimeout: debounce});
-const buttonPlus = new Gpio(14, 'in', 'falling', {debounceTimeout: debounce});
+const buttonPlus = new Gpio(14, 'in', 'both', {debounceTimeout: debounce});
 
 const mfrc522 = require('mfrc522-rpi')
 mfrc522.initWiringPi(0);
@@ -27,6 +27,7 @@ setInterval(function() {
   // Set counter and display to 0
   counter = 0;
   Display.show(counter);
+  spawn("omxplayer", ["-o local files/thanks.ogg"]);
 }, 1500);
 
 let counter = 0;
@@ -38,12 +39,12 @@ buttonMinus.watch((err, value) => {
     counter = 0;
   }
 
-  exec("omxplayer -o local files/minus-1.mp3");
+  spawn("omxplayer", ["-o local files/minus-1.mp3"]);
   Display.show(counter);
 });
 
 buttonPlus.watch((err, value) => {
   counter++;
   Display.show(counter);
-  exec("omxplayer -o local files/plus-1.mp3");
+  spawn("omxplayer", ["-o local files/plus-1.mp3"]);
 });
