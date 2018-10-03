@@ -50,7 +50,7 @@ buttonMinus.watch((err, value) => {
     sound = 1;
   }
 
-  spawn("omxplayer", ["-o local files/minus-" + sound + ".mp3"]);
+  spawn("omxplayer", ["-o local files/minus-" + (counter - 1) + ".mp3"]);
   Display.show(counter);
 });
 
@@ -60,7 +60,7 @@ buttonPlus.watch((err, value) => {
 
   var sound = Math.floor(counter % plusAudioCount);
 
-  spawn("omxplayer", ["-o local files/plus-" + plusAudioCount + ".mp3"]);
+  spawn("omxplayer", ["-o local files/plus-" + (counter - 1) + ".mp3"]);
 });
 
 function reboot() {
