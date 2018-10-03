@@ -44,11 +44,7 @@ buttonMinus.watch((err, value) => {
     counter = 0;
   }
 
-  var sound = Math.floor(counter % minusAudioCount);
-
-  if (sound == 0) {
-    sound = 1;
-  }
+  console.log('MINUS', counter);
 
   spawn("omxplayer", ["-o local files/minus-" + (counter - 1) + ".mp3"]);
   Display.show(counter);
@@ -57,9 +53,7 @@ buttonMinus.watch((err, value) => {
 buttonPlus.watch((err, value) => {
   counter++;
   Display.show(counter);
-
-  var sound = Math.floor(counter % plusAudioCount);
-
+  console.log('PLUS', counter);
   spawn("omxplayer", ["-o local files/plus-" + (counter - 1) + ".mp3"]);
 });
 
